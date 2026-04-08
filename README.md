@@ -14,7 +14,7 @@ Sistema de gestión de inventario y ventas desarrollado en Python con una arquit
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/TU_USUARIO/tienda_app.git
+   git clone https://github.com/pedrodanielpereztorres-maker/tienda_app.git
    cd tienda_app
    ```
 

@@ -1,5 +1,5 @@
 # Dependencias del proyecto tienda_app
-# Por ahora el proyecto utiliza la biblioteca estándar de Python (sqlite3).
-# Si decides añadir pruebas o librerías externas, agrégalas aquí.
 
-pytest>=7.0.0  # Recomendado para pruebas unitarias
+psycopg2-binary>=2.9.0
+python-dotenv>=1.0.0
+pytest>=7.0.0

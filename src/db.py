@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2 import sql
 import os
 from dotenv import load_dotenv
 
@@ -6,12 +7,20 @@ load_dotenv()
 
 
 def obtener_conexion():
+    db_host = os.getenv('DB_HOST')
+    db_name = os.getenv('DB_NAME')
+    db_user = os.getenv('DB_USER')
+
+    if not all([db_host, db_name, db_user]):
+        print("Error: Faltan variables de configuración en el archivo .env")
+        return None
+
     try:
         conexion = psycopg2.connect(
-            host=os.getenv('DB_HOST'),
+            host=db_host,
             port=os.getenv('DB_PORT', '5432'),
-            database=os.getenv('DB_NAME'),
-            user=os.getenv('DB_USER'),
+            database=db_name,
+            user=db_user,
             password=os.getenv('DB_PASSWORD')
         )
         return conexion
@@ -38,7 +47,9 @@ def crear_base_de_datos():
             )
             existe = cursor.fetchone()
             if not existe:
-                cursor.execute(f"CREATE DATABASE {os.getenv('DB_NAME')}")
+                db_name = os.getenv('DB_NAME')
+                cursor.execute(sql.SQL("CREATE DATABASE {}").format(
+                    sql.Identifier(db_name)))
                 print(
                     f"Base de datos '{os.getenv('DB_NAME')}' creada exitosamente.")
             else:
@@ -54,9 +65,10 @@ def init_db():
     if conn is None:
         print("No se pudo establecer la conexión para inicializar la base de datos.")
         return
-    with conn:
-        with conn.cursor() as cursor:
-            cursor.execute("""
+    try:
+        with conn:
+            with conn.cursor() as cursor:
+                cursor.execute("""
                 CREATE TABLE IF NOT EXISTS categorias (
                     id SERIAL PRIMARY KEY,
                     nombre VARCHAR(100) NOT NULL unique,
@@ -94,3 +106,8 @@ def init_db():
                     precio_unit NUMERIC(10,2) NOT NULL
                 );
             """)
+            print("Tablas verificadas/creadas correctamente.")
+    except Exception as e:
+        print(f"Error al crear las tablas: {e}")
+    finally:
+        conn.close()

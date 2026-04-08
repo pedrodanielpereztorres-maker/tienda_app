@@ -75,7 +75,7 @@ class Venta:
                     detalles = []
                     for item in items:
                         cursor.execute(
-                            "SELECT precio,stock FROM productos WHERE id = %s;",
+                            "SELECT precio,stock FROM productos WHERE id = %s FOR UPDATE;",
                             (item['id_producto'],)
                         )
                         fila = cursor.fetchone()
@@ -141,7 +141,7 @@ class Venta:
             conn.close()
 
     @staticmethod
-    def buscar_por_id(id_venta):
+    def obtener_por_id(id_venta):
         conn = obtener_conexion()
         if conn is None:
             print(

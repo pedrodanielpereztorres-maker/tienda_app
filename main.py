@@ -6,7 +6,12 @@ from src.views.venta_view import venta_menu
 
 
 def main():
-    init_db()
+    try:
+        init_db()
+    except Exception as e:
+        print(f"CRITICAL ERROR: No se pudo inicializar la aplicación. {e}")
+        return
+
     while True:
         print("""
         TIENDA APP:
@@ -16,7 +21,7 @@ def main():
         4. Ventas
         5. Salir
         """)
-        opcion = input("Seleccione una opción: ")
+        opcion = input("Seleccione una opción: ").strip()
         if opcion == '1':
             categoria_menu()
         elif opcion == '2':

@@ -111,7 +111,7 @@ class Producto:
             conn.close()
 
     @staticmethod
-    def buscar_por_id(id_producto):
+    def obtener_por_id(id_producto):
         conn = obtener_conexion()
         if conn is None:
             print(
