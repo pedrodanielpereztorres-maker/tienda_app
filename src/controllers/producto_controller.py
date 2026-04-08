@@ -23,7 +23,6 @@ def obtener_producto_por_id(id_producto):
         print("El ID del producto debe ser un número positivo.".upper())
         return None
     producto = Producto.obtener_por_id(id_producto)
-    producto = Producto.obtener_por_id(id_producto)
     if producto is None:
         print("No existe un producto con el ID especificado.".upper())
     return producto
@@ -36,7 +35,7 @@ def actualizar_stock(id_producto, cantidad):
     if cantidad <= 0:
         print("La cantidad debe ser mayor que cero.".upper())
         return None
-    producto = Producto.buscar_por_id(id_producto)
+    producto = Producto.obtener_por_id(id_producto)
     if producto is None:
         print("No existe un producto con el ID especificado.".upper())
         return None
